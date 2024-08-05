@@ -22,9 +22,10 @@ import java.util.List;
 @Slf4j
 public class StatClient {
 
-    private final RestTemplate restTemplate;
     @Value("${stat.server.url}")
     private String url;
+
+    private final RestTemplate restTemplate;
 
     public StatClient() {
         this.restTemplate = new RestTemplate();
