@@ -1,6 +1,7 @@
 package ru.practicum.client;
 
 import io.micrometer.core.lang.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -18,12 +19,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Slf4j
 public class StatClient {
 
+    private final RestTemplate restTemplate;
     @Value("${stat.server.url}")
     private String url;
-
-    private final RestTemplate restTemplate;
 
     public StatClient() {
         this.restTemplate = new RestTemplate();
@@ -31,14 +32,18 @@ public class StatClient {
 
     public void save(EventDto createDto) {
         try {
+            log.info("Stats-client save event {}", createDto);
             restTemplate.exchange(url + "/hit", HttpMethod.POST, new HttpEntity<>(createDto, getDefaultHeaders()),
                     Object.class);
+            log.info("Stats-client success");
         } catch (HttpStatusCodeException e) {
             throw new CallServerException("При вызове сервера произошла ошибка");
         }
     }
 
     public List<StatsDto> get(LocalDateTime startDate, LocalDateTime endDate, @Nullable List<String> uris, boolean unique) {
+        log.info("Stats-clint get filter: startDate {}, endDate {}, uris {}, unique {}",
+                startDate, endDate, uris, unique);
 
         StringBuilder urlBuilder = new StringBuilder(url);
 
