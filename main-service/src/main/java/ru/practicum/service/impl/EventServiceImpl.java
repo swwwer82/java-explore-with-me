@@ -37,16 +37,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
 
+    @Value("${stats.service.app.name}")
+    private String appName;
+
     private static final int MIN_HOURS_DIFF_FOR_EVENT_DATE_FROM_CURRENT_DATE = 2;
     private static final int ADMIN_MIN_HOURS_DIFF_FOR_PUBLISHED_DATE_FROM_EVENT_DATE = 1;
+
     private final EventRepository eventRepository;
     private final UserService userService;
     private final CategoryService categoryService;
     private final StatClient statClient;
     private final UpdateEventMapper updateEventMapper;
     private final RequestRepository requestRepository;
-    @Value("${stats.service.app.name}")
-    private String appName;
 
     @Override
     public List<Event> getAllByIds(List<Long> eventIds) {

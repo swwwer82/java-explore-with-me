@@ -34,7 +34,6 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public Request create(Long userId, Long eventId, HttpServletRequest httpServletRequest) {
-        //Это нужно для тестов, иначе не проходят....
         LocalDateTime timeCreationRequest = LocalDateTime.ofInstant(Instant
                 .ofEpochMilli(httpServletRequest.getSession().getCreationTime()), TimeZone.getDefault().toZoneId());
 
@@ -86,7 +85,6 @@ public class RequestServiceImpl implements RequestService {
     }
 
     private void validateUpdateStatus(Event event, UpdateRequest updateRequest) {
-
         if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
             throw new ConflictException("No confirmation required", ReasonExceptionEnum.CONFLICT.getReason());
         }
@@ -94,6 +92,7 @@ public class RequestServiceImpl implements RequestService {
                 && event.getParticipantLimit() <= getCountActiveRequestOnEventById(event.getId())) {
             throw new ConflictException("Limit over", ReasonExceptionEnum.CONFLICT.getReason());
         }
+
         if (updateRequest.getStatus().equals(StatusRequest.REJECTED)
                 && requestRepository.existsRequestByIdInAndStatus(updateRequest.getRequestIds(), StatusRequest.CONFIRMED)) {
             throw new ConflictException("Сan not reject a confirmed", ReasonExceptionEnum.CONFLICT.getReason());
