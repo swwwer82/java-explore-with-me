@@ -108,7 +108,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getUserEvents(Long userid, Pageable page) {
         userService.checkExistUserById(userid);
-        return eventRepository.findAllByInitiator_Id(userid, page).orElse(new ArrayList<>());
+        return eventRepository.findAllByInitiator_Id(userid, page);
     }
 
     @Override
@@ -123,7 +123,6 @@ public class EventServiceImpl implements EventService {
         Event event = eventRepository.findByIdAndState(eventId, StateEvent.PUBLISHED)
                 .orElseThrow(() -> new NotFoundException("Not found published event", ReasonExceptionEnum.NOT_FOUND.getReason()));
 
-        //Добавим в статистику текущий вызов запрос и обновим счетчик
         updateStat(httpServletRequest);
         event.setViews(Optional.ofNullable(event.getViews()).orElse(0) + 1);
 

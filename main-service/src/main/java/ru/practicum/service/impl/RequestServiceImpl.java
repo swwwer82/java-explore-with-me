@@ -50,7 +50,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public List<Request> getAllByUserId(Long userId) {
         userService.checkExistUserById(userId);
-        return requestRepository.findAllByRequester(userId).orElse(new ArrayList<>());
+        return requestRepository.findAllByRequester(userId);
     }
 
     @Transactional
@@ -103,7 +103,7 @@ public class RequestServiceImpl implements RequestService {
     public List<Request> getAllByEventId(Long userId, Long eventId) {
         userService.checkExistUserById(userId);
         eventService.checkExistEventById(eventId);
-        return requestRepository.findAllByEvent(eventId).orElse(new ArrayList<>());
+        return requestRepository.findAllByEvent(eventId);
     }
 
     private Request validateCreateRequest(Long userId, Long eventId, LocalDateTime timeCreated) {
