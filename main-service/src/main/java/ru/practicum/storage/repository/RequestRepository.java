@@ -11,13 +11,13 @@ import java.util.Optional;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
-    List<Request> findAllByRequester(Long userId);
+    Optional<List<Request>> findAllByRequester(Long userId);
 
     Optional<Request> findByRequesterAndEvent(Long userId, Long eventId);
 
     Optional<Integer> countAllByEventAndStatus(Long eventId, StatusRequest statusRequest);
 
-    List<Request> findAllByEvent(Long eventId);
+    Optional<List<Request>> findAllByEvent(Long eventId);
 
     boolean existsRequestByIdInAndStatus(List<Long> ids, StatusRequest statusRequest);
 
@@ -27,4 +27,5 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @Query("update Request r set r.status = ?2 where r.id in (?1)")
     void updateStatusByIds(List<Long> ids, StatusRequest status);
 
+    Optional<Request> findByRequesterAndEventAndStatus(Long user, Long eventId, StatusRequest statusRequest);
 }

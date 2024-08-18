@@ -32,7 +32,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void deleteById(Long catId) {
-
         checkExistsCategoryById(catId);
 
         if (eventRepository.existsByCategory_Id(catId)) {

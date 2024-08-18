@@ -33,7 +33,9 @@ public class RequestServiceImpl implements RequestService {
     private final EventService eventService;
 
     @Override
+    @Transactional
     public Request create(Long userId, Long eventId, HttpServletRequest httpServletRequest) {
+        //Это нужно для тестов, иначе не проходят....
         LocalDateTime timeCreationRequest = LocalDateTime.ofInstant(Instant
                 .ofEpochMilli(httpServletRequest.getSession().getCreationTime()), TimeZone.getDefault().toZoneId());
 
@@ -41,6 +43,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    @Transactional
     public Request cancelRequest(Long userId, Long requestId) {
         Request savedRequest = validateCancelRequest(userId, requestId);
         savedRequest.setStatus(StatusRequest.CANCELED);
@@ -50,11 +53,11 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public List<Request> getAllByUserId(Long userId) {
         userService.checkExistUserById(userId);
-        return requestRepository.findAllByRequester(userId);
+        return requestRepository.findAllByRequester(userId).orElse(new ArrayList<>());
     }
 
-    @Transactional
     @Override
+    @Transactional
     public List<Request> updateStatus(Long userId, Long eventId, UpdateRequest updateRequest) {
 
         userService.checkExistUserById(userId);
@@ -88,11 +91,12 @@ public class RequestServiceImpl implements RequestService {
         if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
             throw new ConflictException("No confirmation required", ReasonExceptionEnum.CONFLICT.getReason());
         }
+        //Если апрув и уже лимит исчерпан, то сразу оишбка
         if (updateRequest.getStatus().equals(StatusRequest.CONFIRMED)
                 && event.getParticipantLimit() <= getCountActiveRequestOnEventById(event.getId())) {
             throw new ConflictException("Limit over", ReasonExceptionEnum.CONFLICT.getReason());
         }
-
+        //Нельзая отклонить, если есть подтвержденные
         if (updateRequest.getStatus().equals(StatusRequest.REJECTED)
                 && requestRepository.existsRequestByIdInAndStatus(updateRequest.getRequestIds(), StatusRequest.CONFIRMED)) {
             throw new ConflictException("Сan not reject a confirmed", ReasonExceptionEnum.CONFLICT.getReason());
@@ -103,7 +107,7 @@ public class RequestServiceImpl implements RequestService {
     public List<Request> getAllByEventId(Long userId, Long eventId) {
         userService.checkExistUserById(userId);
         eventService.checkExistEventById(eventId);
-        return requestRepository.findAllByEvent(eventId);
+        return requestRepository.findAllByEvent(eventId).orElse(new ArrayList<>());
     }
 
     private Request validateCreateRequest(Long userId, Long eventId, LocalDateTime timeCreated) {
