@@ -16,7 +16,6 @@ import ru.practicum.storage.repository.UserRepository;
 import ru.practicum.storage.specification.UserSpecification;
 import ru.practicum.utils.enums.ReasonExceptionEnum;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
