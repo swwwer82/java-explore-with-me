@@ -11,7 +11,7 @@ import ru.practicum.storage.repository.CategoryRepository;
 import ru.practicum.storage.repository.EventRepository;
 import ru.practicum.utils.enums.ReasonExceptionEnum;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 

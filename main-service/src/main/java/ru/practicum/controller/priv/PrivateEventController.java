@@ -16,7 +16,7 @@ import ru.practicum.service.RequestService;
 import ru.practicum.utils.PaginationUtils;
 import ru.practicum.utils.enums.EvaluateEventType;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @Slf4j

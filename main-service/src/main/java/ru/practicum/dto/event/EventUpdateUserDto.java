@@ -6,7 +6,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import ru.practicum.utils.enums.StateUserActionEvent;
 
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Data

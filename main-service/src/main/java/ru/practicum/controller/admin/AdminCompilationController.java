@@ -12,7 +12,7 @@ import ru.practicum.dto.compilation.CompilationUpdateDto;
 import ru.practicum.mapper.CompilationMapper;
 import ru.practicum.service.CompilationService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @Slf4j
 @RestController

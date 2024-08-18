@@ -11,7 +11,7 @@ import ru.practicum.dto.category.CategoryRequestDto;
 import ru.practicum.mapper.CategoryMapper;
 import ru.practicum.service.CategoryService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @Slf4j
 @RestController

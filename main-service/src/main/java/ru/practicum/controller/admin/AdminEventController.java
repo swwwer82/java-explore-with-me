@@ -14,7 +14,7 @@ import ru.practicum.service.EventService;
 import ru.practicum.utils.PaginationUtils;
 import ru.practicum.utils.enums.StateEvent;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -1,11 +1,10 @@
 package ru.practicum.model.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.practicum.utils.enums.StateEvent;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Setter

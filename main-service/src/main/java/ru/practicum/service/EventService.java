@@ -7,7 +7,7 @@ import ru.practicum.utils.enums.EvaluateEventType;
 import ru.practicum.utils.enums.SortEvent;
 import ru.practicum.utils.enums.StateEvent;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 

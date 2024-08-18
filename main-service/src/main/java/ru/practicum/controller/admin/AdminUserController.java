@@ -12,7 +12,7 @@ import ru.practicum.mapper.UserMapper;
 import ru.practicum.service.UserService;
 import ru.practicum.utils.PaginationUtils;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController

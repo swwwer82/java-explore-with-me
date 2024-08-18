@@ -16,7 +16,7 @@ import ru.practicum.utils.enums.ReasonExceptionEnum;
 import ru.practicum.utils.enums.StateEvent;
 import ru.practicum.utils.enums.StatusRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

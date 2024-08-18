@@ -24,10 +24,9 @@ import ru.practicum.storage.repository.RequestRepository;
 import ru.practicum.storage.specification.EventSpecification;
 import ru.practicum.utils.enums.*;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,7 +38,7 @@ public class EventServiceImpl implements EventService {
     @Value("${stats.service.app.name}")
     private String appName;
 
-    //Рейтинг по 10-ти бальной шкале
+
     private static final int RATING_SCALE = 10;
     private static final int MIN_HOURS_DIFF_FOR_EVENT_DATE_FROM_CURRENT_DATE = 2;
     private static final int ADMIN_MIN_HOURS_DIFF_FOR_PUBLISHED_DATE_FROM_EVENT_DATE = 1;

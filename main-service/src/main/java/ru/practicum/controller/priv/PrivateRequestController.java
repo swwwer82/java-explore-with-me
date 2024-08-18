@@ -10,7 +10,7 @@ import ru.practicum.dto.request.RequestDto;
 import ru.practicum.mapper.RequestMapper;
 import ru.practicum.service.RequestService;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController

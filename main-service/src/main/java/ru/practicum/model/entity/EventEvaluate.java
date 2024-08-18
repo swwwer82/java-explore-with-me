@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import ru.practicum.utils.enums.EvaluateEventType;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @Setter

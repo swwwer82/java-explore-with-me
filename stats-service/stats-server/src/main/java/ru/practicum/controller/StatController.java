@@ -2,6 +2,7 @@ package ru.practicum.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,7 +13,6 @@ import ru.practicum.dto.StatsDto;
 import ru.practicum.mapper.StatsMapper;
 import ru.practicum.service.StatService;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -14,7 +14,7 @@ import ru.practicum.service.EventService;
 import ru.practicum.utils.PaginationUtils;
 import ru.practicum.utils.enums.SortEvent;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
