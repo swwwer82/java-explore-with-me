@@ -1,68 +1,55 @@
-
+version: '3.1'
 services:
-
   stats-server:
-    build: stats-server
-    image: stats-server-img
-    container_name: stats-server-con
+    container_name: stats-server
+    build: ewm-stats-service/stats-server
+    image: ewm-stats-service/stats-server
     ports:
       - "9090:9090"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stat
-      - SPRING_DATASOURCE_USERNAME=dbuser
-      - SPRING_DATASOURCE_PASSWORD=12345
     depends_on:
       - stats-db
-    restart: "on-failure"
+    restart: on-failure
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats
+      - SPRING_DATASOURCE_USERNAME=test
+      - SPRING_DATASOURCE_PASSWORD=test
+      - STATISTIC_SERVER_URL=http://stats-server:9090
 
   stats-db:
-    image: postgres:16.1
-    container_name: stats-db-con
-    ports:
-      - "6542:5432"
-    environment:
-        - POSTGRES_PASSWORD=12345
-        - POSTGRES_USER=dbuser
-        - POSTGRES_DB=stat
-    healthcheck:
-        test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
-        timeout: 5s
-        interval: 5s
-        retries: 10
+    image: postgres:16.1-alpine
+    container_name: stats-db
     volumes:
-        - stats-db-data:/var/lib/postgresql/data
-
-  ewm-service:
-    build: ewm-service
-    image: ewm-service-img
-    container_name: ewm-service-con
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm
-      - SPRING_DATASOURCE_USERNAME=dbuser
-      - SPRING_DATASOURCE_PASSWORD=12345
-    depends_on:
-      - stats-server
-      - ewm-db
-    restart: "no"
-
-  ewm-db:
-    image: postgres:16.1
-    container_name: ewm-db-con
+      - /var/lib/postgresql/data/
     ports:
       - "6541:5432"
     environment:
-      - POSTGRES_PASSWORD=12345
-      - POSTGRES_USER=dbuser
-      - POSTGRES_DB=ewm
-    healthcheck:
-      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
-      timeout: 5s
-      interval: 5s
-      retries: 10
+      - POSTGRES_DB=stats
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+
+  ewm-service:
+    container_name: emw-service
+    build: ewm-main-service
+    image: ewm-main-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ewm-db
+    restart: on-failure
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/main
+      - SPRING_DATASOURCE_USERNAME=test
+      - SPRING_DATASOURCE_PASSWORD=test
+      - STATS_SERVER_URL=http://stats-server:9090
+
+  ewm-db:
+    image: postgres:16.1-alpine
+    container_name: main_db
     volumes:
-      - ewm-db-data:/var/lib/postgresql/data
-volumes:
-  stats-db-data:
-  ewm-db-data:
+      - /var/lib/postgresql/data/
+    ports:
+      - "6542:5432"
+    environment:
+      - POSTGRES_DB=main
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
