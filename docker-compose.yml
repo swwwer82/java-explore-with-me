@@ -1,50 +1,55 @@
 version: '3.1'
 services:
-
   stats-server:
-    build: ./stats-service/stats-server
     container_name: stats-server
-    hostname: stats-server
+    build: ewm-stats-service/stats-server
+    image: ewm-stats-service/stats-server
     ports:
       - "9090:9090"
     depends_on:
-      - db
-    environment:
-      - DB_HOTS=db
-      - DB_PORT=5432
-      - DB_NAME=stats
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - SERVER_PORT=9090
+      - stats-db
     restart: on-failure
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats
+      - SPRING_DATASOURCE_USERNAME=test
+      - SPRING_DATASOURCE_PASSWORD=test
+      - STATISTIC_SERVER_URL=http://stats-server:9090
 
-  main-server:
-    build: ./main-service
-    container_name: main-server
-    hostname: main-server
+  stats-db:
+    image: postgres:16.1-alpine
+    container_name: stats-db
+    volumes:
+      - /var/lib/postgresql/data/
+    ports:
+      - "6541:5432"
+    environment:
+      - POSTGRES_DB=stats
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+
+  ewm-service:
+    container_name: emw-service
+    build: ewm-main-service
+    image: ewm-main-service
     ports:
       - "8080:8080"
     depends_on:
-      - db
-    environment:
-      - DB_HOTS=db
-      - DB_PORT=5432
-      - DB_NAME=main
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - SERVER_PORT=8080
-      - SERVER_STATS_URL=http://stats-server:9090
+      - ewm-db
     restart: on-failure
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/main
+      - SPRING_DATASOURCE_USERNAME=test
+      - SPRING_DATASOURCE_PASSWORD=test
+      - STATS_SERVER_URL=http://stats-server:9090
 
-  db:
-    image: postgres:13.7-alpine
-    container_name: db
-    hostname: db
+  ewm-db:
+    image: postgres:16.1-alpine
+    container_name: main_db
     volumes:
       - /var/lib/postgresql/data/
-      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "6542:5432"
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=main
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
